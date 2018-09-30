@@ -1,17 +1,352 @@
 {
   "definitions": {},
-  "$schema": "",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "http://example.com/root.json",
   "type": "object",
-  "title": "Current Weather Schema - List of Cities",
-  "default": null,
+  "title": "The Root Schema",
   "required": [
-    "cod",
-    "calctime",
-    "cnt",
-    "list"
+    "coord",
+    "weather",
+    "base",
+    "main",
+    "visibility",
+    "wind",
+    "clouds",
+    "dt",
+    "sys",
+    "id",
+    "name",
+    "cod"
   ],
   "properties": {
+    "coord": {
+      "$id": "#/properties/coord",
+      "type": "object",
+      "title": "The Coord Schema",
+      "required": [
+        "lon",
+        "lat"
+      ],
+      "properties": {
+        "lon": {
+          "$id": "#/properties/coord/properties/lon",
+          "type": "number",
+          "title": "The Lon Schema",
+          "default": 0.0,
+          "examples": [
+            -122.42
+          ]
+        },
+        "lat": {
+          "$id": "#/properties/coord/properties/lat",
+          "type": "number",
+          "title": "The Lat Schema",
+          "default": 0.0,
+          "examples": [
+            37.78
+          ]
+        }
+      }
+    },
+    "weather": {
+      "$id": "#/properties/weather",
+      "type": "array",
+      "title": "The Weather Schema",
+      "items": {
+        "$id": "#/properties/weather/items",
+        "type": "object",
+        "title": "The Items Schema",
+        "required": [
+          "id",
+          "main",
+          "description",
+          "icon"
+        ],
+        "properties": {
+          "id": {
+            "$id": "#/properties/weather/items/properties/id",
+            "type": "integer",
+            "title": "The Id Schema",
+            "default": 0,
+            "examples": [
+              803
+            ]
+          },
+          "main": {
+            "$id": "#/properties/weather/items/properties/main",
+            "type": "string",
+            "title": "The Main Schema",
+            "default": "",
+            "examples": [
+              "Clouds"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "description": {
+            "$id": "#/properties/weather/items/properties/description",
+            "type": "string",
+            "title": "The Description Schema",
+            "default": "",
+            "examples": [
+              "broken clouds"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "icon": {
+            "$id": "#/properties/weather/items/properties/icon",
+            "type": "string",
+            "title": "The Icon Schema",
+            "default": "",
+            "examples": [
+              "04d"
+            ],
+            "pattern": "^(.*)$"
+          }
+        }
+      }
+    },
+    "base": {
+      "$id": "#/properties/base",
+      "type": "string",
+      "title": "The Base Schema",
+      "default": "",
+      "examples": [
+        "stations"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "main": {
+      "$id": "#/properties/main",
+      "type": "object",
+      "title": "The Main Schema",
+      "required": [
+        "temp",
+        "pressure",
+        "humidity",
+        "temp_min",
+        "temp_max"
+      ],
+      "properties": {
+        "temp": {
+          "$id": "#/properties/main/properties/temp",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Temp Schema",
+          "default": 0.0,
+          "examples": [
+            294.68
+          ]
+        },
+        "pressure": {
+          "$id": "#/properties/main/properties/pressure",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Pressure Schema",
+          "default": 0,
+          "examples": [
+            1013
+          ]
+        },
+        "humidity": {
+          "$id": "#/properties/main/properties/humidity",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Humidity Schema",
+          "default": 0,
+          "examples": [
+            62
+          ]
+        },
+        "temp_min": {
+          "$id": "#/properties/main/properties/temp_min",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Temp_min Schema",
+          "default": 0.0,
+          "examples": [
+            292.05
+          ]
+        },
+        "temp_max": {
+          "$id": "#/properties/main/properties/temp_max",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Temp_max Schema",
+          "default": 0.0,
+          "examples": [
+            297.05
+          ]
+        }
+      }
+    },
+    "visibility": {
+      "$id": "#/properties/visibility",
+      "type": "integer",
+      "title": "The Visibility Schema",
+      "default": 0,
+      "examples": [
+        16093
+      ]
+    },
+    "wind": {
+      "$id": "#/properties/wind",
+      "type": "object",
+      "title": "The Wind Schema",
+      "required": [
+        "speed",
+        "deg"
+      ],
+      "properties": {
+        "speed": {
+          "$id": "#/properties/wind/properties/speed",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Speed Schema",
+          "default": 0.0,
+          "examples": [
+            3.1
+          ]
+        },
+        "deg": {
+          "$id": "#/properties/wind/properties/deg",
+          "type": "integer",
+          "title": "The Deg Schema",
+          "default": 0,
+          "examples": [
+            30
+          ]
+        }
+      }
+    },
+    "clouds": {
+      "$id": "#/properties/clouds",
+      "type": "object",
+      "title": "The Clouds Schema",
+      "required": [
+        "all"
+      ],
+      "properties": {
+        "all": {
+          "$id": "#/properties/clouds/properties/all",
+          "type": "integer",
+          "title": "The All Schema",
+          "default": 0,
+          "examples": [
+            75
+          ]
+        }
+      }
+    },
+    "dt": {
+      "$id": "#/properties/dt",
+      "type": "integer",
+      "title": "The Dt Schema",
+      "default": 0,
+      "examples": [
+        1538333880
+      ]
+    },
+    "sys": {
+      "$id": "#/properties/sys",
+      "type": "object",
+      "title": "The Sys Schema",
+      "required": [
+        "type",
+        "id",
+        "message",
+        "country",
+        "sunrise",
+        "sunset"
+      ],
+      "properties": {
+        "type": {
+          "$id": "#/properties/sys/properties/type",
+          "type": "integer",
+          "title": "The Type Schema",
+          "default": 0,
+          "examples": [
+            1
+          ]
+        },
+        "id": {
+          "$id": "#/properties/sys/properties/id",
+          "type": "integer",
+          "title": "The Id Schema",
+          "default": 0,
+          "examples": [
+            478
+          ]
+        },
+        "message": {
+          "$id": "#/properties/sys/properties/message",
+          "type": "number",
+          "title": "The Message Schema",
+          "default": 0.0,
+          "examples": [
+            0.0043
+          ]
+        },
+        "country": {
+          "$id": "#/properties/sys/properties/country",
+          "type": "string",
+          "title": "The Country Schema",
+          "default": "",
+          "examples": [
+            "US"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "sunrise": {
+          "$id": "#/properties/sys/properties/sunrise",
+          "type": "integer",
+          "title": "The Sunrise Schema",
+          "default": 0,
+          "examples": [
+            1538316313
+          ]
+        },
+        "sunset": {
+          "$id": "#/properties/sys/properties/sunset",
+          "type": "integer",
+          "title": "The Sunset Schema",
+          "default": 0,
+          "examples": [
+            1538358769
+          ]
+        }
+      }
+    },
+    "id": {
+      "$id": "#/properties/id",
+      "type": "integer",
+      "title": "The Id Schema",
+      "default": 0,
+      "examples": [
+        5391959
+      ]
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "title": "The Name Schema",
+      "default": "",
+      "examples": [
+        "San Francisco"
+      ],
+      "pattern": "^(.*)$"
+    },
     "cod": {
       "$id": "#/properties/cod",
       "type": "integer",
@@ -20,287 +355,6 @@
       "examples": [
         200
       ]
-    },
-    "calctime": {
-      "$id": "#/properties/calctime",
-      "type": "number",
-      "title": "The Calctime Schema",
-      "default": 0.0,
-      "examples": [
-        0.235627269
-      ]
-    },
-    "cnt": {
-      "$id": "#/properties/cnt",
-      "type": "integer",
-      "title": "The Cnt Schema",
-      "default": 0,
-      "examples": [
-        14
-      ]
-    },
-    "list": {
-      "$id": "#/properties/list",
-      "type": "array",
-      "title": "The List Schema",
-      "items": {
-        "$id": "#/properties/list/items",
-        "type": "object",
-        "title": "The Items Schema",
-        "required": [
-          "id",
-          "dt",
-          "name",
-          "coord",
-          "main",
-          "wind",
-          "rain",
-          "snow",
-          "clouds",
-          "weather"
-        ],
-        "properties": {
-          "id": {
-            "$id": "#/properties/list/items/properties/id",
-            "type": "integer",
-            "title": "The Id Schema",
-            "default": 0,
-            "examples": [
-              7262761
-            ]
-          },
-          "dt": {
-            "$id": "#/properties/list/items/properties/dt",
-            "type": "integer",
-            "title": "The Dt Schema",
-            "default": 0,
-            "examples": [
-              1538326948
-            ]
-          },
-          "name": {
-            "$id": "#/properties/list/items/properties/name",
-            "type": "string",
-            "title": "The Name Schema",
-            "default": "",
-            "examples": [
-              "Makakilo"
-            ],
-            "pattern": "^(.*)$"
-          },
-          "coord": {
-            "$id": "#/properties/list/items/properties/coord",
-            "type": "object",
-            "title": "The Coord Schema",
-            "required": [
-              "Lat",
-              "Lon"
-            ],
-            "properties": {
-              "Lat": {
-                "$id": "#/properties/list/items/properties/coord/properties/Lat",
-                "type": "number",
-                "title": "The Lat Schema",
-                "default": 0.0,
-                "examples": [
-                  21.352369
-                ]
-              },
-              "Lon": {
-                "$id": "#/properties/list/items/properties/coord/properties/Lon",
-                "type": "number",
-                "title": "The Lon Schema",
-                "default": 0.0,
-                "examples": [
-                  -158.086548
-                ]
-              }
-            }
-          },
-          "main": {
-            "$id": "#/properties/list/items/properties/main",
-            "type": "object",
-            "title": "The Main Schema",
-            "required": [
-              "temp",
-              "temp_min",
-              "temp_max",
-              "pressure",
-              "humidity"
-            ],
-            "properties": {
-              "temp": {
-                "$id": "#/properties/list/items/properties/main/properties/temp",
-                "type": "number",
-                "title": "The Temp Schema",
-                "default": 0.0,
-                "examples": [
-                  24.49
-                ]
-              },
-              "temp_min": {
-                "$id": "#/properties/list/items/properties/main/properties/temp_min",
-                "type": "integer",
-                "title": "The Temp_min Schema",
-                "default": 0,
-                "examples": [
-                  22
-                ]
-              },
-              "temp_max": {
-                "$id": "#/properties/list/items/properties/main/properties/temp_max",
-                "type": "number",
-                "title": "The Temp_max Schema",
-                "default": 0.0,
-                "examples": [
-                  26.7
-                ]
-              },
-              "pressure": {
-                "$id": "#/properties/list/items/properties/main/properties/pressure",
-                "type": "integer",
-                "title": "The Pressure Schema",
-                "default": 0,
-                "examples": [
-                  1016
-                ]
-              },
-              "humidity": {
-                "$id": "#/properties/list/items/properties/main/properties/humidity",
-                "type": "integer",
-                "title": "The Humidity Schema",
-                "default": 0,
-                "examples": [
-                  94
-                ]
-              }
-            }
-          },
-          "wind": {
-            "$id": "#/properties/list/items/properties/wind",
-            "type": "object",
-            "title": "The Wind Schema",
-            "required": [
-              "speed",
-              "deg"
-            ],
-            "properties": {
-              "speed": {
-                "$id": "#/properties/list/items/properties/wind/properties/speed",
-                "type": "number",
-                "title": "The Speed Schema",
-                "default": 0.0,
-                "examples": [
-                  4.55
-                ]
-              },
-              "deg": {
-                "$id": "#/properties/list/items/properties/wind/properties/deg",
-                "type": "number",
-                "title": "The Deg Schema",
-                "default": 0.0,
-                "examples": [
-                  86.5014
-                ]
-              }
-            }
-          },
-          "rain": {
-            "$id": "#/properties/list/items/properties/rain",
-            "type": "null",
-            "title": "The Rain Schema",
-            "default": null,
-            "examples": [
-              null
-            ]
-          },
-          "snow": {
-            "$id": "#/properties/list/items/properties/snow",
-            "type": "null",
-            "title": "The Snow Schema",
-            "default": null,
-            "examples": [
-              null
-            ]
-          },
-          "clouds": {
-            "$id": "#/properties/list/items/properties/clouds",
-            "type": "object",
-            "title": "The Clouds Schema",
-            "required": [
-              "today"
-            ],
-            "properties": {
-              "today": {
-                "$id": "#/properties/list/items/properties/clouds/properties/today",
-                "type": "integer",
-                "title": "The Today Schema",
-                "default": 0,
-                "examples": [
-                  40
-                ]
-              }
-            }
-          },
-          "weather": {
-            "$id": "#/properties/list/items/properties/weather",
-            "type": "array",
-            "title": "The Weather Schema",
-            "items": {
-              "$id": "#/properties/list/items/properties/weather/items",
-              "type": "object",
-              "title": "The Items Schema",
-              "required": [
-                "id",
-                "main",
-                "description",
-                "icon"
-              ],
-              "properties": {
-                "id": {
-                  "$id": "#/properties/list/items/properties/weather/items/properties/id",
-                  "type": "integer",
-                  "title": "The Id Schema",
-                  "default": 0,
-                  "examples": [
-                    802
-                  ]
-                },
-                "main": {
-                  "$id": "#/properties/list/items/properties/weather/items/properties/main",
-                  "type": "string",
-                  "title": "The Main Schema",
-                  "default": "",
-                  "examples": [
-                    "Clouds"
-                  ],
-                  "pattern": "^(.*)$"
-                },
-                "description": {
-                  "$id": "#/properties/list/items/properties/weather/items/properties/description",
-                  "type": "string",
-                  "title": "The Description Schema",
-                  "default": "",
-                  "examples": [
-                    "scattered clouds"
-                  ],
-                  "pattern": "^(.*)$"
-                },
-                "icon": {
-                  "$id": "#/properties/list/items/properties/weather/items/properties/icon",
-                  "type": "string",
-                  "title": "The Icon Schema",
-                  "default": "",
-                  "examples": [
-                    "03d"
-                  ],
-                  "pattern": "^(.*)$"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   }
 }
