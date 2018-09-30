@@ -219,7 +219,10 @@
               },
               "deg": {
                 "$id": "#/properties/list/items/properties/wind/properties/deg",
-                "type": "integer",
+                "type": [
+                  "number",
+                  "integer"
+                ],
                 "title": "The Deg Schema",
                 "default": 0,
                 "examples": [
