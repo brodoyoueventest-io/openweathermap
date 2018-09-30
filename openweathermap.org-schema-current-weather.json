@@ -1,179 +1,396 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "http://api.openweathermap.org",
+  "definitions": {},
+  "$schema": "",
+  "$id": "http://example.com/root.json",
   "type": "object",
+  "title": "OpenWeatherMap - Current Weather",
+  "default": null,
+  "required": [
+    "coord",
+    "weather",
+    "base",
+    "main",
+    "visibility",
+    "wind",
+    "rain",
+    "clouds",
+    "dt",
+    "sys",
+    "id",
+    "name",
+    "cod"
+  ],
   "properties": {
     "coord": {
-      "id": "http://api.openweathermap.org/coord",
+      "$id": "#/properties/coord",
       "type": "object",
+      "title": "The Coord Schema",
+      "required": [
+        "lon",
+        "lat"
+      ],
       "properties": {
         "lon": {
-          "id": "http://api.openweathermap.org/coord/lon",
-          "type": "number",
-          "default": -0.13
+          "$id": "#/properties/coord/properties/lon",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Lon Schema",
+          "default": 0.0,
+          "examples": [
+            -87.62
+          ]
         },
         "lat": {
-          "id": "http://api.openweathermap.org/coord/lat",
-          "type": "number",
-          "default": 51.51
+          "$id": "#/properties/coord/properties/lat",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Lat Schema",
+          "default": 0.0,
+          "examples": [
+            41.88
+          ]
         }
-      },
-      "required": ["lon", "lat"]
+      }
     },
     "weather": {
-      "id": "http://api.openweathermap.org/weather",
+      "$id": "#/properties/weather",
       "type": "array",
+      "title": "The Weather Schema",
       "items": {
-        "id": "http://api.openweathermap.org/weather/0",
+        "$id": "#/properties/weather/items",
         "type": "object",
+        "title": "The Items Schema",
+        "required": [
+          "id",
+          "main",
+          "description",
+          "icon"
+        ],
         "properties": {
           "id": {
-            "id": "http://api.openweathermap.org/weather/0/id",
+            "$id": "#/properties/weather/items/properties/id",
             "type": "integer",
-            "default": 802
+            "title": "The Id Schema",
+            "default": 0,
+            "examples": [
+              500
+            ]
           },
           "main": {
-            "id": "http://api.openweathermap.org/weather/0/main",
+            "$id": "#/properties/weather/items/properties/main",
             "type": "string",
-            "default": "Clouds"
+            "title": "The Main Schema",
+            "default": "",
+            "examples": [
+              "Rain"
+            ],
+            "pattern": "^(.*)$"
           },
           "description": {
-            "id": "http://api.openweathermap.org/weather/0/description",
+            "$id": "#/properties/weather/items/properties/description",
             "type": "string",
-            "default": "scattered clouds"
+            "title": "The Description Schema",
+            "default": "",
+            "examples": [
+              "light rain"
+            ],
+            "pattern": "^(.*)$"
           },
           "icon": {
-            "id": "http://api.openweathermap.org/weather/0/icon",
+            "$id": "#/properties/weather/items/properties/icon",
             "type": "string",
-            "default": "03d"
+            "title": "The Icon Schema",
+            "default": "",
+            "examples": [
+              "10d"
+            ],
+            "pattern": "^(.*)$"
           }
         }
       }
     },
     "base": {
-      "id": "http://api.openweathermap.org/base",
+      "$id": "#/properties/base",
       "type": "string",
-      "default": "cmc stations"
+      "title": "The Base Schema",
+      "default": "",
+      "examples": [
+        "stations"
+      ],
+      "pattern": "^(.*)$"
     },
     "main": {
-      "id": "http://api.openweathermap.org/main",
+      "$id": "#/properties/main",
       "type": "object",
+      "title": "The Main Schema",
+      "required": [
+        "temp",
+        "pressure",
+        "humidity",
+        "temp_min",
+        "temp_max"
+      ],
       "properties": {
         "temp": {
-          "id": "http://api.openweathermap.org/main/temp",
-          "type": "number",
-          "default": 284.4
+          "$id": "#/properties/main/properties/temp",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Temp Schema",
+          "default": 0.0,
+          "examples": [
+            291.92
+          ]
         },
         "pressure": {
-          "id": "http://api.openweathermap.org/main/pressure",
-          "type": "integer",
-          "default": 1020
+          "$id": "#/properties/main/properties/pressure",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Pressure Schema",
+          "default": 0,
+          "examples": [
+            1021
+          ]
         },
         "humidity": {
-          "id": "http://api.openweathermap.org/main/humidity",
-          "type": "integer",
-          "default": 71
+          "$id": "#/properties/main/properties/humidity",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Humidity Schema",
+          "default": 0,
+          "examples": [
+            89
+          ]
         },
         "temp_min": {
-          "id": "http://api.openweathermap.org/main/temp_min",
-          "type": "number",
-          "default": 283.15
+          "$id": "#/properties/main/properties/temp_min",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Temp_min Schema",
+          "default": 0.0,
+          "examples": [
+            286.45
+          ]
         },
         "temp_max": {
-          "id": "http://api.openweathermap.org/main/temp_max",
-          "type": "number",
-          "default": 285.15
+          "$id": "#/properties/main/properties/temp_max",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Temp_max Schema",
+          "default": 0.0,
+          "examples": [
+            297.85
+          ]
         }
       }
     },
+    "visibility": {
+      "$id": "#/properties/visibility",
+      "type": [
+        "number",
+        "integer"
+      ],
+      "title": "The Visibility Schema",
+      "default": 0,
+      "examples": [
+        9656
+      ]
+    },
     "wind": {
-      "id": "http://api.openweathermap.org/wind",
+      "$id": "#/properties/wind",
       "type": "object",
+      "title": "The Wind Schema",
+      "required": [
+        "speed",
+        "deg"
+      ],
       "properties": {
         "speed": {
-          "id": "http://api.openweathermap.org/wind/speed",
-          "type": "number",
-          "default": 10.8
+          "$id": "#/properties/wind/properties/speed",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Speed Schema",
+          "default": 0.0,
+          "examples": [
+            2.6
+          ]
         },
         "deg": {
-          "id": "http://api.openweathermap.org/wind/deg",
-          "type": "integer",
-          "default": 220
-        },
-        "gust": {
-          "id": "http://api.openweathermap.org/wind/gust",
-          "type": "number",
-          "default": 15.9
+          "$id": "#/properties/wind/properties/deg",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The Deg Schema",
+          "default": 0,
+          "examples": [
+            350
+          ]
+        }
+      }
+    },
+    "rain": {
+      "$id": "#/properties/rain",
+      "type": "object",
+      "title": "The Rain Schema",
+      "required": [
+        "1h"
+      ],
+      "properties": {
+        "1h": {
+          "$id": "#/properties/rain/properties/1h",
+          "type": [
+            "number",
+            "integer"
+          ],
+          "title": "The 1h Schema",
+          "default": 0.0,
+          "examples": [
+            0.38
+          ]
         }
       }
     },
     "clouds": {
-      "id": "http://api.openweathermap.org/clouds",
+      "$id": "#/properties/clouds",
       "type": "object",
+      "title": "The Clouds Schema",
+      "required": [
+        "all"
+      ],
       "properties": {
         "all": {
-          "id": "http://api.openweathermap.org/clouds/all",
+          "$id": "#/properties/clouds/properties/all",
           "type": "integer",
-          "default": 40
+          "title": "The All Schema",
+          "default": 0,
+          "examples": [
+            90
+          ]
         }
       }
     },
     "dt": {
-      "id": "http://api.openweathermap.org/dt",
+      "$id": "#/properties/dt",
       "type": "integer",
-      "default": 1449303600
+      "title": "The Dt Schema",
+      "default": 0,
+      "examples": [
+        1538336700
+      ]
     },
     "sys": {
-      "id": "http://api.openweathermap.org/sys",
+      "$id": "#/properties/sys",
       "type": "object",
+      "title": "The Sys Schema",
+      "required": [
+        "type",
+        "id",
+        "message",
+        "country",
+        "sunrise",
+        "sunset"
+      ],
       "properties": {
         "type": {
-          "id": "http://api.openweathermap.org/sys/type",
+          "$id": "#/properties/sys/properties/type",
           "type": "integer",
-          "default": 1
+          "title": "The Type Schema",
+          "default": 0,
+          "examples": [
+            1
+          ]
         },
         "id": {
-          "id": "http://api.openweathermap.org/sys/id",
+          "$id": "#/properties/sys/properties/id",
           "type": "integer",
-          "default": 5093
+          "title": "The Id Schema",
+          "default": 0,
+          "examples": [
+            962
+          ]
         },
         "message": {
-          "id": "http://api.openweathermap.org/sys/message",
+          "$id": "#/properties/sys/properties/message",
           "type": "number",
-          "default": 0.0081
+          "title": "The Message Schema",
+          "default": 0.0,
+          "examples": [
+            0.0038
+          ]
         },
         "country": {
-          "id": "http://api.openweathermap.org/sys/country",
+          "$id": "#/properties/sys/properties/country",
           "type": "string",
-          "default": "GB"
+          "title": "The Country Schema",
+          "default": "",
+          "examples": [
+            "US"
+          ],
+          "pattern": "^(.*)$"
         },
         "sunrise": {
-          "id": "http://api.openweathermap.org/sys/sunrise",
+          "$id": "#/properties/sys/properties/sunrise",
           "type": "integer",
-          "default": 1449301749
+          "title": "The Sunrise Schema",
+          "default": 0,
+          "examples": [
+            1538308035
+          ]
         },
         "sunset": {
-          "id": "http://api.openweathermap.org/sys/sunset",
+          "$id": "#/properties/sys/properties/sunset",
           "type": "integer",
-          "default": 1449330774
+          "title": "The Sunset Schema",
+          "default": 0,
+          "examples": [
+            1538350340
+          ]
         }
       }
     },
     "id": {
-      "id": "http://api.openweathermap.org/id",
+      "$id": "#/properties/id",
       "type": "integer",
-      "default": 2643743
+      "title": "The Id Schema",
+      "default": 0,
+      "examples": [
+        4887398
+      ]
     },
     "name": {
-      "id": "http://api.openweathermap.org/name",
+      "$id": "#/properties/name",
       "type": "string",
-      "default": "London"
+      "title": "The Name Schema",
+      "default": "",
+      "examples": [
+        "Chicago"
+      ],
+      "pattern": "^(.*)$"
     },
     "cod": {
-      "id": "http://api.openweathermap.org/cod",
+      "$id": "#/properties/cod",
       "type": "integer",
-      "default": 200
+      "title": "The Cod Schema",
+      "default": 0,
+      "examples": [
+        200
+      ]
     }
-  },
-  "required": ["coord", "weather", "base", "main", "wind", "clouds", "dt", "sys", "id", "name", "cod"]
+  }
 }
