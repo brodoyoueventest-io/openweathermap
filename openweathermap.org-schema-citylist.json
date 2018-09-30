@@ -1,10 +1,9 @@
 {
   "definitions": {},
-  "$schema": "",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "http://example.com/root.json",
   "type": "object",
-  "title": "Current Weather Schema - List of Cities",
-  "default": null,
+  "title": "OpenWeatherMap - List of Cities",
   "required": [
     "cod",
     "calctime",
@@ -27,7 +26,7 @@
       "title": "The Calctime Schema",
       "default": 0.0,
       "examples": [
-        0.235627269
+        0.236668675
       ]
     },
     "cnt": {
@@ -75,7 +74,7 @@
             "title": "The Dt Schema",
             "default": 0,
             "examples": [
-              1538326948
+              1538337728
             ]
           },
           "name": {
@@ -99,7 +98,10 @@
             "properties": {
               "Lat": {
                 "$id": "#/properties/list/items/properties/coord/properties/Lat",
-                "type": "number",
+                "type": [
+                  "number",
+                  "integer"
+                ],
                 "title": "The Lat Schema",
                 "default": 0.0,
                 "examples": [
@@ -108,7 +110,10 @@
               },
               "Lon": {
                 "$id": "#/properties/list/items/properties/coord/properties/Lon",
-                "type": "number",
+                "type": [
+                  "number",
+                  "integer"
+                ],
                 "title": "The Lon Schema",
                 "default": 0.0,
                 "examples": [
@@ -131,34 +136,46 @@
             "properties": {
               "temp": {
                 "$id": "#/properties/list/items/properties/main/properties/temp",
-                "type": "number",
+                "type": [
+                  "number",
+                  "integer"
+                ],
                 "title": "The Temp Schema",
                 "default": 0.0,
                 "examples": [
-                  24.49
+                  28.18
                 ]
               },
               "temp_min": {
                 "$id": "#/properties/list/items/properties/main/properties/temp_min",
-                "type": "integer",
+                "type": [
+                  "number",
+                  "integer"
+                ],
                 "title": "The Temp_min Schema",
-                "default": 0,
+                "default": 0.0,
                 "examples": [
-                  22
+                  26.6
                 ]
               },
               "temp_max": {
                 "$id": "#/properties/list/items/properties/main/properties/temp_max",
-                "type": "number",
+                "type": [
+                  "number",
+                  "integer"
+                ],
                 "title": "The Temp_max Schema",
                 "default": 0.0,
                 "examples": [
-                  26.7
+                  28.9
                 ]
               },
               "pressure": {
                 "$id": "#/properties/list/items/properties/main/properties/pressure",
-                "type": "integer",
+                "type": [
+                  "number",
+                  "integer"
+                ],
                 "title": "The Pressure Schema",
                 "default": 0,
                 "examples": [
@@ -167,11 +184,14 @@
               },
               "humidity": {
                 "$id": "#/properties/list/items/properties/main/properties/humidity",
-                "type": "integer",
+                "type": [
+                  "number",
+                  "integer"
+                ],
                 "title": "The Humidity Schema",
                 "default": 0,
                 "examples": [
-                  94
+                  65
                 ]
               }
             }
@@ -187,20 +207,23 @@
             "properties": {
               "speed": {
                 "$id": "#/properties/list/items/properties/wind/properties/speed",
-                "type": "number",
+                "type": [
+                  "number",
+                  "integer"
+                ],
                 "title": "The Speed Schema",
                 "default": 0.0,
                 "examples": [
-                  4.55
+                  3.1
                 ]
               },
               "deg": {
                 "$id": "#/properties/list/items/properties/wind/properties/deg",
-                "type": "number",
+                "type": "integer",
                 "title": "The Deg Schema",
-                "default": 0.0,
+                "default": 0,
                 "examples": [
-                  86.5014
+                  0
                 ]
               }
             }
@@ -237,7 +260,7 @@
                 "title": "The Today Schema",
                 "default": 0,
                 "examples": [
-                  40
+                  1
                 ]
               }
             }
@@ -263,7 +286,7 @@
                   "title": "The Id Schema",
                   "default": 0,
                   "examples": [
-                    802
+                    521
                   ]
                 },
                 "main": {
@@ -272,7 +295,7 @@
                   "title": "The Main Schema",
                   "default": "",
                   "examples": [
-                    "Clouds"
+                    "Rain"
                   ],
                   "pattern": "^(.*)$"
                 },
@@ -282,7 +305,7 @@
                   "title": "The Description Schema",
                   "default": "",
                   "examples": [
-                    "scattered clouds"
+                    "shower rain"
                   ],
                   "pattern": "^(.*)$"
                 },
@@ -292,7 +315,7 @@
                   "title": "The Icon Schema",
                   "default": "",
                   "examples": [
-                    "03d"
+                    "09d"
                   ],
                   "pattern": "^(.*)$"
                 }
