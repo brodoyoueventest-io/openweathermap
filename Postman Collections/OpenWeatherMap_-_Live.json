@@ -1,0 +1,1356 @@
+{
+  "info": {
+    "_postman_id": "656121cd-f25e-455b-8df1-2b407ff0a759",
+    "name": "OpenWeatherMap - Live",
+    "description": "Note: This collection is for version 2.5 of the OpenWeatherMap services.\n\nOpenWeatherMap is an online service that provides weather data, including current weather data, forecasts, and historical data to the developers of web services and mobile applications. \n\nFor data sources, it utilizes meteorological broadcast services, raw data from airport weather stations, raw data from radar stations, and raw data from other official weather stations. All data is processed by OpenWeatherMap in a way that it attempts to provide accurate online weather forecast data and weather maps, such as those for clouds or precipitation. \n\nBeyond that, the service is focused on the social aspect by involving weather station owners in connecting to the service and thereby increasing weather data accuracy. ",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "_postman_id": "b1e4b524-2e98-408e-a00f-6fedcd6383b9",
+      "name": "Current Weather Data",
+      "description": "Access current weather data for any location on Earth including over 200,000 cities! Current weather is frequently updated based on global models and data from more than 40,000 weather stations. Data is available in JSON, XML, or HTML format.",
+      "item": [
+        {
+          "_postman_id": "176a7f61-24e0-4def-9b0e-f9a1de3cf38c",
+          "name": "Schema for Current Weather",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5233aed1-919e-4208-85fb-fe05b6ba5c7f",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code should be 200\", () => {",
+                  "    pm.response.to.have.status(200)",
+                  "})",
+                  "",
+                  "if(pm.response.code != 200) {",
+                  "    // Don't let Postman continue as we don't have a schema to validate with",
+                  "    postman.setNextRequest(null)",
+                  "} else {",
+                  "    let jsonData = pm.response.json();",
+                  "    pm.environment.set('currentWeatherSchema', JSON.stringify(jsonData))",
+                  "    ",
+                  "    // Create a list of cities to use for querying current weather",
+                  "    let cities = [",
+                  "      \"Los Angeles\",",
+                  "      \"San Francisco\",",
+                  "      \"South Lake Tahoe\",",
+                  "      \"Chicago\",",
+                  "      \"Boston\",",
+                  "      \"Denver\",",
+                  "      \"Atlanta\",",
+                  "      \"Louisville\",",
+                  "      \"Reno\",",
+                  "      \"San Diego\"",
+                  "    ]",
+                  "    ",
+                  "    // Store the city list to an environment variable",
+                  "    pm.environment.set('cities', JSON.stringify(cities))",
+                  "",
+                  "    // Save common tests in a global variable",
+                  "    postman.setGlobalVariable(\"commonCurrentWeatherTests\", () => {",
+                  "        pm.test(\"Status code should be 200\", () => {",
+                  "            pm.response.to.have.status(200)",
+                  "        })",
+                  "        ",
+                  "        const jsonData = pm.response.json()",
+                  "        const schema = JSON.parse(pm.environment.get('currentWeatherSchema'))",
+                  "        ",
+                  "        pm.test(\"Response is JSON\", () => {",
+                  "            pm.response.to.be.json",
+                  "        })",
+                  "        ",
+                  "        pm.test(\"Response should validate against the Current Weather schema\", () => {",
+                  "            const validationResult = tv4.validateResult(jsonData, schema, false, true)",
+                  "            ",
+                  "            if(!validationResult.valid) {",
+                  "                console.log(validationResult)",
+                  "                console.log(validationResult.error.dataPath)",
+                  "            }    ",
+                  "                ",
+                  "            pm.expect(validationResult.valid).to.be.true",
+                  "        })",
+                  "    })    ",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "url": "https://raw.githubusercontent.com/testallthethings-io/openweathermap/master/openweathermap.org-schema-current-weather.json",
+            "description": "This request retrieves the JSON schema used for validating Current Weather JSON responses from various GET queries, i.e., by city name, city ID, etc."
+          },
+          "response": [
+            {
+              "id": "09508c4f-6dbb-4fa3-b51d-f7a896ea1b37",
+              "name": "Schema for Current Weather",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {},
+                "url": "https://raw.githubusercontent.com/testallthethings-io/openweathermap/master/openweathermap.org-schema-current-weather.json"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "Accept-Ranges",
+                  "value": "bytes",
+                  "name": "Accept-Ranges",
+                  "description": "Content-Types that are acceptable"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "max-age=300",
+                  "name": "Cache-Control",
+                  "description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": "Options that are desired for the connection"
+                },
+                {
+                  "key": "Content-Encoding",
+                  "value": "gzip",
+                  "name": "Content-Encoding",
+                  "description": "The type of encoding used on the data."
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1263",
+                  "name": "Content-Length",
+                  "description": "The length of the response body in octets (8-bit bytes)"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+                  "name": "Content-Security-Policy",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": "The mime type of this content"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 30 Sep 2018 21:09:42 GMT",
+                  "name": "Date",
+                  "description": "The date and time that the message was sent"
+                },
+                {
+                  "key": "ETag",
+                  "value": "\"bfe50ddfa88eda78e898fd7831005b6ab0e5430a\"",
+                  "name": "ETag",
+                  "description": "An identifier for a specific version of a resource, often a message digest"
+                },
+                {
+                  "key": "Expires",
+                  "value": "Sun, 30 Sep 2018 21:14:42 GMT",
+                  "name": "Expires",
+                  "description": "Gives the date/time after which the response is considered stale"
+                },
+                {
+                  "key": "Source-Age",
+                  "value": "0",
+                  "name": "Source-Age",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000",
+                  "name": "Strict-Transport-Security",
+                  "description": "A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and whether this applies to subdomains."
+                },
+                {
+                  "key": "Vary",
+                  "value": "Authorization,Accept-Encoding",
+                  "name": "Vary",
+                  "description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+                },
+                {
+                  "key": "Via",
+                  "value": "1.1 varnish",
+                  "name": "Via",
+                  "description": "Informs the client of proxies through which the response was sent."
+                },
+                {
+                  "key": "X-Cache",
+                  "value": "MISS",
+                  "name": "X-Cache",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-Cache-Hits",
+                  "value": "0",
+                  "name": "X-Cache-Hits",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff",
+                  "name": "X-Content-Type-Options",
+                  "description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+                },
+                {
+                  "key": "X-Fastly-Request-ID",
+                  "value": "5c3d96baeb03f0ac2ddfda1880750f3bc7970145",
+                  "name": "X-Fastly-Request-ID",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "deny",
+                  "name": "X-Frame-Options",
+                  "description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+                },
+                {
+                  "key": "X-Geo-Block-List",
+                  "value": "",
+                  "name": "X-Geo-Block-List",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-GitHub-Request-Id",
+                  "value": "4F14:1DBC:1343CA0:1467504:5BB13B96",
+                  "name": "X-GitHub-Request-Id",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-Served-By",
+                  "value": "cache-lax8648-LAX",
+                  "name": "X-Served-By",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-Timer",
+                  "value": "S1538341783.725564,VS0,VE135",
+                  "name": "X-Timer",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "1; mode=block",
+                  "name": "X-XSS-Protection",
+                  "description": "Cross-site scripting (XSS) filter"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"definitions\": {},\n  \"$schema\": \"\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"title\": \"OpenWeatherMap - Current Weather\",\n  \"default\": null,\n  \"required\": [\n    \"coord\",\n    \"weather\",\n    \"base\",\n    \"main\",\n    \"visibility\",\n    \"wind\",\n    \"clouds\",\n    \"dt\",\n    \"sys\",\n    \"id\",\n    \"name\",\n    \"cod\"\n  ],\n  \"properties\": {\n    \"coord\": {\n      \"$id\": \"#/properties/coord\",\n      \"type\": \"object\",\n      \"title\": \"The Coord Schema\",\n      \"required\": [\n        \"lon\",\n        \"lat\"\n      ],\n      \"properties\": {\n        \"lon\": {\n          \"$id\": \"#/properties/coord/properties/lon\",\n          \"type\": [\n            \"number\",\n            \"integer\"\n          ],\n          \"title\": \"The Lon Schema\",\n          \"default\": 0.0,\n          \"examples\": [\n            -87.62\n          ]\n        },\n        \"lat\": {\n          \"$id\": \"#/properties/coord/properties/lat\",\n          \"type\": [\n            \"number\",\n            \"integer\"\n          ],\n          \"title\": \"The Lat Schema\",\n          \"default\": 0.0,\n          \"examples\": [\n            41.88\n          ]\n        }\n      }\n    },\n    \"weather\": {\n      \"$id\": \"#/properties/weather\",\n      \"type\": \"array\",\n      \"title\": \"The Weather Schema\",\n      \"items\": {\n        \"$id\": \"#/properties/weather/items\",\n        \"type\": \"object\",\n        \"title\": \"The Items Schema\",\n        \"required\": [\n          \"id\",\n          \"main\",\n          \"description\",\n          \"icon\"\n        ],\n        \"properties\": {\n          \"id\": {\n            \"$id\": \"#/properties/weather/items/properties/id\",\n            \"type\": \"integer\",\n            \"title\": \"The Id Schema\",\n            \"default\": 0,\n            \"examples\": [\n              500\n            ]\n          },\n          \"main\": {\n            \"$id\": \"#/properties/weather/items/properties/main\",\n            \"type\": \"string\",\n            \"title\": \"The Main Schema\",\n            \"default\": \"\",\n            \"examples\": [\n              \"Rain\"\n            ],\n            \"pattern\": \"^(.*)$\"\n          },\n          \"description\": {\n            \"$id\": \"#/properties/weather/items/properties/description\",\n            \"type\": \"string\",\n            \"title\": \"The Description Schema\",\n            \"default\": \"\",\n            \"examples\": [\n              \"light rain\"\n            ],\n            \"pattern\": \"^(.*)$\"\n          },\n          \"icon\": {\n            \"$id\": \"#/properties/weather/items/properties/icon\",\n            \"type\": \"string\",\n            \"title\": \"The Icon Schema\",\n            \"default\": \"\",\n            \"examples\": [\n              \"10d\"\n            ],\n            \"pattern\": \"^(.*)$\"\n          }\n        }\n      }\n    },\n    \"base\": {\n      \"$id\": \"#/properties/base\",\n      \"type\": \"string\",\n      \"title\": \"The Base Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"stations\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    },\n    \"main\": {\n      \"$id\": \"#/properties/main\",\n      \"type\": \"object\",\n      \"title\": \"The Main Schema\",\n      \"required\": [\n        \"temp\",\n        \"pressure\",\n        \"humidity\",\n        \"temp_min\",\n        \"temp_max\"\n      ],\n      \"properties\": {\n        \"temp\": {\n          \"$id\": \"#/properties/main/properties/temp\",\n          \"type\": [\n            \"number\",\n            \"integer\"\n          ],\n          \"title\": \"The Temp Schema\",\n          \"default\": 0.0,\n          \"examples\": [\n            291.92\n          ]\n        },\n        \"pressure\": {\n          \"$id\": \"#/properties/main/properties/pressure\",\n          \"type\": [\n            \"number\",\n            \"integer\"\n          ],\n          \"title\": \"The Pressure Schema\",\n          \"default\": 0,\n          \"examples\": [\n            1021\n          ]\n        },\n        \"humidity\": {\n          \"$id\": \"#/properties/main/properties/humidity\",\n          \"type\": [\n            \"number\",\n            \"integer\"\n          ],\n          \"title\": \"The Humidity Schema\",\n          \"default\": 0,\n          \"examples\": [\n            89\n          ]\n        },\n        \"temp_min\": {\n          \"$id\": \"#/properties/main/properties/temp_min\",\n          \"type\": [\n            \"number\",\n            \"integer\"\n          ],\n          \"title\": \"The Temp_min Schema\",\n          \"default\": 0.0,\n          \"examples\": [\n            286.45\n          ]\n        },\n        \"temp_max\": {\n          \"$id\": \"#/properties/main/properties/temp_max\",\n          \"type\": [\n            \"number\",\n            \"integer\"\n          ],\n          \"title\": \"The Temp_max Schema\",\n          \"default\": 0.0,\n          \"examples\": [\n            297.85\n          ]\n        }\n      }\n    },\n    \"visibility\": {\n      \"$id\": \"#/properties/visibility\",\n      \"type\": [\n        \"number\",\n        \"integer\"\n      ],\n      \"title\": \"The Visibility Schema\",\n      \"default\": 0,\n      \"examples\": [\n        9656\n      ]\n    },\n    \"wind\": {\n      \"$id\": \"#/properties/wind\",\n      \"type\": \"object\",\n      \"title\": \"The Wind Schema\",\n      \"required\": [\n        \"speed\",\n        \"deg\"\n      ],\n      \"properties\": {\n        \"speed\": {\n          \"$id\": \"#/properties/wind/properties/speed\",\n          \"type\": [\n            \"number\",\n            \"integer\"\n          ],\n          \"title\": \"The Speed Schema\",\n          \"default\": 0.0,\n          \"examples\": [\n            2.6\n          ]\n        },\n        \"deg\": {\n          \"$id\": \"#/properties/wind/properties/deg\",\n          \"type\": [\n            \"number\",\n            \"integer\"\n          ],\n          \"title\": \"The Deg Schema\",\n          \"default\": 0,\n          \"examples\": [\n            350\n          ]\n        }\n      }\n    },\n    \"rain\": {\n      \"$id\": \"#/properties/rain\",\n      \"type\": \"object\",\n      \"title\": \"The Rain Schema\",\n      \"required\": [\n        \"1h\"\n      ],\n      \"properties\": {\n        \"1h\": {\n          \"$id\": \"#/properties/rain/properties/1h\",\n          \"type\": [\n            \"number\",\n            \"integer\"\n          ],\n          \"title\": \"The 1h Schema\",\n          \"default\": 0.0,\n          \"examples\": [\n            0.38\n          ]\n        }\n      }\n    },\n    \"clouds\": {\n      \"$id\": \"#/properties/clouds\",\n      \"type\": \"object\",\n      \"title\": \"The Clouds Schema\",\n      \"required\": [\n        \"all\"\n      ],\n      \"properties\": {\n        \"all\": {\n          \"$id\": \"#/properties/clouds/properties/all\",\n          \"type\": \"integer\",\n          \"title\": \"The All Schema\",\n          \"default\": 0,\n          \"examples\": [\n            90\n          ]\n        }\n      }\n    },\n    \"dt\": {\n      \"$id\": \"#/properties/dt\",\n      \"type\": \"integer\",\n      \"title\": \"The Dt Schema\",\n      \"default\": 0,\n      \"examples\": [\n        1538336700\n      ]\n    },\n    \"sys\": {\n      \"$id\": \"#/properties/sys\",\n      \"type\": \"object\",\n      \"title\": \"The Sys Schema\",\n      \"required\": [\n        \"type\",\n        \"id\",\n        \"message\",\n        \"country\",\n        \"sunrise\",\n        \"sunset\"\n      ],\n      \"properties\": {\n        \"type\": {\n          \"$id\": \"#/properties/sys/properties/type\",\n          \"type\": \"integer\",\n          \"title\": \"The Type Schema\",\n          \"default\": 0,\n          \"examples\": [\n            1\n          ]\n        },\n        \"id\": {\n          \"$id\": \"#/properties/sys/properties/id\",\n          \"type\": \"integer\",\n          \"title\": \"The Id Schema\",\n          \"default\": 0,\n          \"examples\": [\n            962\n          ]\n        },\n        \"message\": {\n          \"$id\": \"#/properties/sys/properties/message\",\n          \"type\": \"number\",\n          \"title\": \"The Message Schema\",\n          \"default\": 0.0,\n          \"examples\": [\n            0.0038\n          ]\n        },\n        \"country\": {\n          \"$id\": \"#/properties/sys/properties/country\",\n          \"type\": \"string\",\n          \"title\": \"The Country Schema\",\n          \"default\": \"\",\n          \"examples\": [\n            \"US\"\n          ],\n          \"pattern\": \"^(.*)$\"\n        },\n        \"sunrise\": {\n          \"$id\": \"#/properties/sys/properties/sunrise\",\n          \"type\": \"integer\",\n          \"title\": \"The Sunrise Schema\",\n          \"default\": 0,\n          \"examples\": [\n            1538308035\n          ]\n        },\n        \"sunset\": {\n          \"$id\": \"#/properties/sys/properties/sunset\",\n          \"type\": \"integer\",\n          \"title\": \"The Sunset Schema\",\n          \"default\": 0,\n          \"examples\": [\n            1538350340\n          ]\n        }\n      }\n    },\n    \"id\": {\n      \"$id\": \"#/properties/id\",\n      \"type\": \"integer\",\n      \"title\": \"The Id Schema\",\n      \"default\": 0,\n      \"examples\": [\n        4887398\n      ]\n    },\n    \"name\": {\n      \"$id\": \"#/properties/name\",\n      \"type\": \"string\",\n      \"title\": \"The Name Schema\",\n      \"default\": \"\",\n      \"examples\": [\n        \"Chicago\"\n      ],\n      \"pattern\": \"^(.*)$\"\n    },\n    \"cod\": {\n      \"$id\": \"#/properties/cod\",\n      \"type\": \"integer\",\n      \"title\": \"The Cod Schema\",\n      \"default\": 0,\n      \"examples\": [\n        200\n      ]\n    }\n  }\n}\n"
+            }
+          ]
+        },
+        {
+          "_postman_id": "a7366fe0-c6c3-4cf3-9ab0-6c0900602fb1",
+          "name": "Schema for Current Weather city list",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "cfaaff51-0b85-45a7-83d2-7208df1d68bc",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code should be 200\", () => {",
+                  "    pm.response.to.have.status(200)",
+                  "})",
+                  "",
+                  "if(pm.response.code != 200) {",
+                  "    // Don't let Postman continue as we don't have a schema to validate with",
+                  "    postman.setNextRequest(null)",
+                  "} else {",
+                  "    let jsonData = pm.response.json()",
+                  "    pm.environment.set('currentWeatherListSchema', JSON.stringify(jsonData))",
+                  "}",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "url": "https://raw.githubusercontent.com/testallthethings-io/openweathermap/master/openweathermap.org-schema-citylist.json",
+            "description": "This request retrieves the JSON schema used for validating Current Weather JSON responses from various GET queries which have a list of cities returned in the response."
+          },
+          "response": [
+            {
+              "id": "3f771b26-6125-4d65-94c0-57c1ff9cb0a7",
+              "name": "Schema for Current Weather city list",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {},
+                "url": "https://raw.githubusercontent.com/testallthethings-io/openweathermap/master/openweathermap.org-schema-citylist.json"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "Accept-Ranges",
+                  "value": "bytes",
+                  "name": "Accept-Ranges",
+                  "description": "Content-Types that are acceptable"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "max-age=300",
+                  "name": "Cache-Control",
+                  "description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": "Options that are desired for the connection"
+                },
+                {
+                  "key": "Content-Encoding",
+                  "value": "gzip",
+                  "name": "Content-Encoding",
+                  "description": "The type of encoding used on the data."
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1205",
+                  "name": "Content-Length",
+                  "description": "The length of the response body in octets (8-bit bytes)"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+                  "name": "Content-Security-Policy",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": "The mime type of this content"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 30 Sep 2018 21:51:06 GMT",
+                  "name": "Date",
+                  "description": "The date and time that the message was sent"
+                },
+                {
+                  "key": "ETag",
+                  "value": "\"404e9acab96603c18f8e93e4c85afecd09aba2ad\"",
+                  "name": "ETag",
+                  "description": "An identifier for a specific version of a resource, often a message digest"
+                },
+                {
+                  "key": "Expires",
+                  "value": "Sun, 30 Sep 2018 21:56:06 GMT",
+                  "name": "Expires",
+                  "description": "Gives the date/time after which the response is considered stale"
+                },
+                {
+                  "key": "Source-Age",
+                  "value": "0",
+                  "name": "Source-Age",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000",
+                  "name": "Strict-Transport-Security",
+                  "description": "A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and whether this applies to subdomains."
+                },
+                {
+                  "key": "Vary",
+                  "value": "Authorization,Accept-Encoding",
+                  "name": "Vary",
+                  "description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+                },
+                {
+                  "key": "Via",
+                  "value": "1.1 varnish",
+                  "name": "Via",
+                  "description": "Informs the client of proxies through which the response was sent."
+                },
+                {
+                  "key": "X-Cache",
+                  "value": "MISS",
+                  "name": "X-Cache",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-Cache-Hits",
+                  "value": "0",
+                  "name": "X-Cache-Hits",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff",
+                  "name": "X-Content-Type-Options",
+                  "description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+                },
+                {
+                  "key": "X-Fastly-Request-ID",
+                  "value": "bf70d4f6619752e48065b6339f066b62b76f43ab",
+                  "name": "X-Fastly-Request-ID",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "deny",
+                  "name": "X-Frame-Options",
+                  "description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+                },
+                {
+                  "key": "X-Geo-Block-List",
+                  "value": "",
+                  "name": "X-Geo-Block-List",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-GitHub-Request-Id",
+                  "value": "D9C8:9F55:1B8E044:1CD9998:5BB1454A",
+                  "name": "X-GitHub-Request-Id",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-Served-By",
+                  "value": "cache-lax8620-LAX",
+                  "name": "X-Served-By",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-Timer",
+                  "value": "S1538344267.620107,VS0,VE146",
+                  "name": "X-Timer",
+                  "description": "Custom header"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "1; mode=block",
+                  "name": "X-XSS-Protection",
+                  "description": "Cross-site scripting (XSS) filter"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"title\": \"OpenWeatherMap - List of Cities\",\n  \"required\": [\n    \"cod\",\n    \"calctime\",\n    \"cnt\",\n    \"list\"\n  ],\n  \"properties\": {\n    \"cod\": {\n      \"$id\": \"#/properties/cod\",\n      \"type\": \"integer\",\n      \"title\": \"The Cod Schema\",\n      \"default\": 0,\n      \"examples\": [\n        200\n      ]\n    },\n    \"calctime\": {\n      \"$id\": \"#/properties/calctime\",\n      \"type\": \"number\",\n      \"title\": \"The Calctime Schema\",\n      \"default\": 0.0,\n      \"examples\": [\n        0.236668675\n      ]\n    },\n    \"cnt\": {\n      \"$id\": \"#/properties/cnt\",\n      \"type\": \"integer\",\n      \"title\": \"The Cnt Schema\",\n      \"default\": 0,\n      \"examples\": [\n        14\n      ]\n    },\n    \"list\": {\n      \"$id\": \"#/properties/list\",\n      \"type\": \"array\",\n      \"title\": \"The List Schema\",\n      \"items\": {\n        \"$id\": \"#/properties/list/items\",\n        \"type\": \"object\",\n        \"title\": \"The Items Schema\",\n        \"required\": [\n          \"id\",\n          \"dt\",\n          \"name\",\n          \"coord\",\n          \"main\",\n          \"wind\",\n          \"rain\",\n          \"snow\",\n          \"clouds\",\n          \"weather\"\n        ],\n        \"properties\": {\n          \"id\": {\n            \"$id\": \"#/properties/list/items/properties/id\",\n            \"type\": \"integer\",\n            \"title\": \"The Id Schema\",\n            \"default\": 0,\n            \"examples\": [\n              7262761\n            ]\n          },\n          \"dt\": {\n            \"$id\": \"#/properties/list/items/properties/dt\",\n            \"type\": \"integer\",\n            \"title\": \"The Dt Schema\",\n            \"default\": 0,\n            \"examples\": [\n              1538337728\n            ]\n          },\n          \"name\": {\n            \"$id\": \"#/properties/list/items/properties/name\",\n            \"type\": \"string\",\n            \"title\": \"The Name Schema\",\n            \"default\": \"\",\n            \"examples\": [\n              \"Makakilo\"\n            ],\n            \"pattern\": \"^(.*)$\"\n          },\n          \"coord\": {\n            \"$id\": \"#/properties/list/items/properties/coord\",\n            \"type\": \"object\",\n            \"title\": \"The Coord Schema\",\n            \"required\": [\n              \"Lat\",\n              \"Lon\"\n            ],\n            \"properties\": {\n              \"Lat\": {\n                \"$id\": \"#/properties/list/items/properties/coord/properties/Lat\",\n                \"type\": [\n                  \"number\",\n                  \"integer\"\n                ],\n                \"title\": \"The Lat Schema\",\n                \"default\": 0.0,\n                \"examples\": [\n                  21.352369\n                ]\n              },\n              \"Lon\": {\n                \"$id\": \"#/properties/list/items/properties/coord/properties/Lon\",\n                \"type\": [\n                  \"number\",\n                  \"integer\"\n                ],\n                \"title\": \"The Lon Schema\",\n                \"default\": 0.0,\n                \"examples\": [\n                  -158.086548\n                ]\n              }\n            }\n          },\n          \"main\": {\n            \"$id\": \"#/properties/list/items/properties/main\",\n            \"type\": \"object\",\n            \"title\": \"The Main Schema\",\n            \"required\": [\n              \"temp\",\n              \"temp_min\",\n              \"temp_max\",\n              \"pressure\",\n              \"humidity\"\n            ],\n            \"properties\": {\n              \"temp\": {\n                \"$id\": \"#/properties/list/items/properties/main/properties/temp\",\n                \"type\": [\n                  \"number\",\n                  \"integer\"\n                ],\n                \"title\": \"The Temp Schema\",\n                \"default\": 0.0,\n                \"examples\": [\n                  28.18\n                ]\n              },\n              \"temp_min\": {\n                \"$id\": \"#/properties/list/items/properties/main/properties/temp_min\",\n                \"type\": [\n                  \"number\",\n                  \"integer\"\n                ],\n                \"title\": \"The Temp_min Schema\",\n                \"default\": 0.0,\n                \"examples\": [\n                  26.6\n                ]\n              },\n              \"temp_max\": {\n                \"$id\": \"#/properties/list/items/properties/main/properties/temp_max\",\n                \"type\": [\n                  \"number\",\n                  \"integer\"\n                ],\n                \"title\": \"The Temp_max Schema\",\n                \"default\": 0.0,\n                \"examples\": [\n                  28.9\n                ]\n              },\n              \"pressure\": {\n                \"$id\": \"#/properties/list/items/properties/main/properties/pressure\",\n                \"type\": [\n                  \"number\",\n                  \"integer\"\n                ],\n                \"title\": \"The Pressure Schema\",\n                \"default\": 0,\n                \"examples\": [\n                  1016\n                ]\n              },\n              \"humidity\": {\n                \"$id\": \"#/properties/list/items/properties/main/properties/humidity\",\n                \"type\": [\n                  \"number\",\n                  \"integer\"\n                ],\n                \"title\": \"The Humidity Schema\",\n                \"default\": 0,\n                \"examples\": [\n                  65\n                ]\n              }\n            }\n          },\n          \"wind\": {\n            \"$id\": \"#/properties/list/items/properties/wind\",\n            \"type\": \"object\",\n            \"title\": \"The Wind Schema\",\n            \"required\": [\n              \"speed\",\n              \"deg\"\n            ],\n            \"properties\": {\n              \"speed\": {\n                \"$id\": \"#/properties/list/items/properties/wind/properties/speed\",\n                \"type\": [\n                  \"number\",\n                  \"integer\"\n                ],\n                \"title\": \"The Speed Schema\",\n                \"default\": 0.0,\n                \"examples\": [\n                  3.1\n                ]\n              },\n              \"deg\": {\n                \"$id\": \"#/properties/list/items/properties/wind/properties/deg\",\n                \"type\": [\n                  \"number\",\n                  \"integer\"\n                ],\n                \"title\": \"The Deg Schema\",\n                \"default\": 0,\n                \"examples\": [\n                  0\n                ]\n              }\n            }\n          },\n          \"rain\": {\n            \"$id\": \"#/properties/list/items/properties/rain\",\n            \"type\": \"null\",\n            \"title\": \"The Rain Schema\",\n            \"default\": null,\n            \"examples\": [\n              null\n            ]\n          },\n          \"snow\": {\n            \"$id\": \"#/properties/list/items/properties/snow\",\n            \"type\": \"null\",\n            \"title\": \"The Snow Schema\",\n            \"default\": null,\n            \"examples\": [\n              null\n            ]\n          },\n          \"clouds\": {\n            \"$id\": \"#/properties/list/items/properties/clouds\",\n            \"type\": \"object\",\n            \"title\": \"The Clouds Schema\",\n            \"required\": [\n              \"today\"\n            ],\n            \"properties\": {\n              \"today\": {\n                \"$id\": \"#/properties/list/items/properties/clouds/properties/today\",\n                \"type\": \"integer\",\n                \"title\": \"The Today Schema\",\n                \"default\": 0,\n                \"examples\": [\n                  1\n                ]\n              }\n            }\n          },\n          \"weather\": {\n            \"$id\": \"#/properties/list/items/properties/weather\",\n            \"type\": \"array\",\n            \"title\": \"The Weather Schema\",\n            \"items\": {\n              \"$id\": \"#/properties/list/items/properties/weather/items\",\n              \"type\": \"object\",\n              \"title\": \"The Items Schema\",\n              \"required\": [\n                \"id\",\n                \"main\",\n                \"description\",\n                \"icon\"\n              ],\n              \"properties\": {\n                \"id\": {\n                  \"$id\": \"#/properties/list/items/properties/weather/items/properties/id\",\n                  \"type\": \"integer\",\n                  \"title\": \"The Id Schema\",\n                  \"default\": 0,\n                  \"examples\": [\n                    521\n                  ]\n                },\n                \"main\": {\n                  \"$id\": \"#/properties/list/items/properties/weather/items/properties/main\",\n                  \"type\": \"string\",\n                  \"title\": \"The Main Schema\",\n                  \"default\": \"\",\n                  \"examples\": [\n                    \"Rain\"\n                  ],\n                  \"pattern\": \"^(.*)$\"\n                },\n                \"description\": {\n                  \"$id\": \"#/properties/list/items/properties/weather/items/properties/description\",\n                  \"type\": \"string\",\n                  \"title\": \"The Description Schema\",\n                  \"default\": \"\",\n                  \"examples\": [\n                    \"shower rain\"\n                  ],\n                  \"pattern\": \"^(.*)$\"\n                },\n                \"icon\": {\n                  \"$id\": \"#/properties/list/items/properties/weather/items/properties/icon\",\n                  \"type\": \"string\",\n                  \"title\": \"The Icon Schema\",\n                  \"default\": \"\",\n                  \"examples\": [\n                    \"09d\"\n                  ],\n                  \"pattern\": \"^(.*)$\"\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+            }
+          ]
+        },
+        {
+          "_postman_id": "01fdaa1e-69e8-4111-b33f-da03add0f353",
+          "name": "By city name",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "dad6fde7-38d5-488d-8036-64c70305315f",
+                "type": "text/javascript",
+                "exec": [
+                  "// Pick a random city and store it to an environment variable",
+                  "let cities = JSON.parse(pm.environment.get('cities'));",
+                  "let randomCity = cities[Math.floor(Math.random() * cities.length)];",
+                  "pm.environment.set('randomCity', randomCity); "
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "aaef0b54-ed6f-4dbf-807f-f8659d881c66",
+                "type": "text/javascript",
+                "exec": [
+                  "// First, run the common tests",
+                  "eval(globals.commonCurrentWeatherTests)()",
+                  "",
+                  "const jsonData = pm.response.json()",
+                  "",
+                  "pm.test(\"City name in request should equal city name in response\", () => {",
+                  "    let currentCity = pm.environment.get('randomCity')",
+                  "    pm.expect(jsonData.name).to.eql(currentCity)",
+                  "})",
+                  "",
+                  "// Store city ID to the environment",
+                  "pm.environment.set('randomCityId', jsonData.id)"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "{{url}}/weather?q={{randomCity}}&appid={{apikey}}",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "weather"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "{{randomCity}}",
+                  "equals": true
+                },
+                {
+                  "key": "appid",
+                  "value": "{{apikey}}",
+                  "equals": true
+                }
+              ]
+            },
+            "description": "Retrieves the current weather conditions for the specified city name. Returns a list of results if there is more than one city match, otherwise it returns a single JSON object containing current weather data."
+          },
+          "response": [
+            {
+              "id": "2b9ad1c1-9e57-4e5f-945e-5985168cd444",
+              "name": "By city name",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "disabled": false
+                  }
+                ],
+                "body": {},
+                "url": {
+                  "raw": "{{url}}/weather?q={{randomCity}}&appid={{apikey}}",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "weather"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "{{randomCity}}",
+                      "equals": true
+                    },
+                    {
+                      "key": "appid",
+                      "value": "{{apikey}}",
+                      "equals": true
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true",
+                  "name": "Access-Control-Allow-Credentials",
+                  "description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST",
+                  "name": "Access-Control-Allow-Methods",
+                  "description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": "Options that are desired for the connection"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "460",
+                  "name": "Content-Length",
+                  "description": "The length of the response body in octets (8-bit bytes)"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": "The mime type of this content"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 30 Sep 2018 03:37:55 GMT",
+                  "name": "Date",
+                  "description": "The date and time that the message was sent"
+                },
+                {
+                  "key": "Server",
+                  "value": "openresty",
+                  "name": "Server",
+                  "description": "A name for the server"
+                },
+                {
+                  "key": "X-Cache-Key",
+                  "value": "/data/2.5/weather?q=las%20vegas",
+                  "name": "X-Cache-Key",
+                  "description": "Custom header"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\"coord\":{\"lon\":-115.15,\"lat\":36.17},\"weather\":[{\"id\":800,\"main\":\"Clear\",\"description\":\"clear sky\",\"icon\":\"01n\"}],\"base\":\"stations\",\"main\":{\"temp\":304.87,\"pressure\":1009,\"humidity\":22,\"temp_min\":304.15,\"temp_max\":305.35},\"visibility\":16093,\"wind\":{\"speed\":8.2,\"deg\":180,\"gust\":11.3},\"clouds\":{\"all\":1},\"dt\":1538277300,\"sys\":{\"type\":1,\"id\":2049,\"message\":0.0036,\"country\":\"US\",\"sunrise\":1538314506,\"sunset\":1538357115},\"id\":5506956,\"name\":\"Las Vegas\",\"cod\":200}"
+            }
+          ]
+        },
+        {
+          "_postman_id": "710bbc93-f0ca-4740-800b-9a7eade4873a",
+          "name": "By city ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "0b318d54-dd71-47de-8746-96ec8401eb52",
+                "type": "text/javascript",
+                "exec": [
+                  "// First, run the common tests",
+                  "eval(globals.commonCurrentWeatherTests)()",
+                  "",
+                  "const jsonData = pm.response.json()",
+                  "",
+                  "pm.test(\"City ID in request should equal city ID in response \", () => {",
+                  "    let currentCityId = pm.environment.get('randomCityId')",
+                  "    pm.expect(jsonData.id).to.eql(currentCityId)",
+                  "})",
+                  "",
+                  "// Save lat/lon to environment",
+                  "pm.environment.set('lon', jsonData.coord.lon)",
+                  "pm.environment.set('lat', jsonData.coord.lat)",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "{{url}}/weather?id={{randomCityId}}&appid={{apikey}}",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "weather"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{randomCityId}}",
+                  "equals": true
+                },
+                {
+                  "key": "appid",
+                  "value": "{{apikey}}",
+                  "equals": true
+                }
+              ]
+            },
+            "description": "Retrieves the current weather conditions for the specified city ID. Returns a single JSON object containing current weather data."
+          },
+          "response": [
+            {
+              "id": "e10f7241-8c78-4108-9438-52d43856f8af",
+              "name": "By city ID",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "disabled": false
+                  }
+                ],
+                "body": {},
+                "url": {
+                  "raw": "{{url}}/weather?id={{randomCityId}}&appid={{apikey}}",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "weather"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "{{randomCityId}}",
+                      "equals": true
+                    },
+                    {
+                      "key": "appid",
+                      "value": "{{apikey}}",
+                      "equals": true
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true",
+                  "name": "Access-Control-Allow-Credentials",
+                  "description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST",
+                  "name": "Access-Control-Allow-Methods",
+                  "description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": "Options that are desired for the connection"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "456",
+                  "name": "Content-Length",
+                  "description": "The length of the response body in octets (8-bit bytes)"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": "The mime type of this content"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 30 Sep 2018 03:44:28 GMT",
+                  "name": "Date",
+                  "description": "The date and time that the message was sent"
+                },
+                {
+                  "key": "Server",
+                  "value": "openresty",
+                  "name": "Server",
+                  "description": "A name for the server"
+                },
+                {
+                  "key": "X-Cache-Key",
+                  "value": "/data/2.5/weather?id=5508379",
+                  "name": "X-Cache-Key",
+                  "description": "Custom header"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\"coord\":{\"lon\":-119.77,\"lat\":38.95},\"weather\":[{\"id\":800,\"main\":\"Clear\",\"description\":\"clear sky\",\"icon\":\"01n\"}],\"base\":\"stations\",\"main\":{\"temp\":286.98,\"pressure\":1011,\"humidity\":27,\"temp_min\":283.15,\"temp_max\":290.95},\"visibility\":16093,\"wind\":{\"speed\":4.6,\"deg\":260,\"gust\":7.2},\"clouds\":{\"all\":1},\"dt\":1538277300,\"sys\":{\"type\":1,\"id\":2050,\"message\":0.0048,\"country\":\"US\",\"sunrise\":1538315662,\"sunset\":1538358173},\"id\":5508379,\"name\":\"Minden\",\"cod\":200}"
+            }
+          ]
+        },
+        {
+          "_postman_id": "adfbfb3e-a92f-41dc-a30b-8949f509a5c6",
+          "name": "By geographic coordinates",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "ce2ec095-a063-4471-845d-1bc7d659e149",
+                "type": "text/javascript",
+                "exec": [
+                  "// First, run the common tests",
+                  "eval(globals.commonCurrentWeatherTests)()",
+                  "",
+                  "const jsonData = pm.response.json()",
+                  "",
+                  "pm.test(\"Longitude in request should equal longitude in response \", () => {",
+                  "    let lon = pm.environment.get('lon')",
+                  "    pm.expect(jsonData.coord.lon).to.eql(lon)",
+                  "})",
+                  "",
+                  "pm.test(\"Latitude in request should equal latitude in response\", () => {",
+                  "    let lat = pm.environment.get('lat')",
+                  "    pm.expect(jsonData.coord.lat).to.eql(lat)",
+                  "})",
+                  "",
+                  "pm.environment.set('zipCode', jsonData)"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "{{url}}/weather?lat={{lat}}&lon={{lon}}&appid={{apikey}}",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "weather"
+              ],
+              "query": [
+                {
+                  "key": "lat",
+                  "value": "{{lat}}",
+                  "equals": true
+                },
+                {
+                  "key": "lon",
+                  "value": "{{lon}}",
+                  "equals": true
+                },
+                {
+                  "key": "appid",
+                  "value": "{{apikey}}",
+                  "equals": true
+                }
+              ]
+            },
+            "description": "Retrieves the current weather conditions for the specified longitude and latitude coordinates. Returns a single JSON object containing current weather data."
+          },
+          "response": [
+            {
+              "id": "4868945a-5493-4c94-a589-3dceda0e1710",
+              "name": "By geographic coordinates",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "disabled": false
+                  }
+                ],
+                "body": {},
+                "url": {
+                  "raw": "{{url}}/weather?lat={{lat}}&lon={{lon}}&appid={{apikey}}",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "weather"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "{{lat}}",
+                      "equals": true
+                    },
+                    {
+                      "key": "lon",
+                      "value": "{{lon}}",
+                      "equals": true
+                    },
+                    {
+                      "key": "appid",
+                      "value": "{{apikey}}",
+                      "equals": true
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true",
+                  "name": "Access-Control-Allow-Credentials",
+                  "description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST",
+                  "name": "Access-Control-Allow-Methods",
+                  "description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": "Options that are desired for the connection"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "449",
+                  "name": "Content-Length",
+                  "description": "The length of the response body in octets (8-bit bytes)"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": "The mime type of this content"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 30 Sep 2018 04:06:59 GMT",
+                  "name": "Date",
+                  "description": "The date and time that the message was sent"
+                },
+                {
+                  "key": "Server",
+                  "value": "openresty",
+                  "name": "Server",
+                  "description": "A name for the server"
+                },
+                {
+                  "key": "X-Cache-Key",
+                  "value": "/data/2.5/weather?lat=34.05&lon=-118.24",
+                  "name": "X-Cache-Key",
+                  "description": "Custom header"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\"coord\":{\"lon\":-118.24,\"lat\":34.05},\"weather\":[{\"id\":800,\"main\":\"Clear\",\"description\":\"clear sky\",\"icon\":\"01n\"}],\"base\":\"stations\",\"main\":{\"temp\":293.23,\"pressure\":1011,\"humidity\":75,\"temp_min\":291.15,\"temp_max\":294.25},\"visibility\":16093,\"wind\":{\"speed\":2.1,\"deg\":280},\"clouds\":{\"all\":1},\"dt\":1538276280,\"sys\":{\"type\":1,\"id\":416,\"message\":0.0144,\"country\":\"US\",\"sunrise\":1538315216,\"sunset\":1538357890},\"id\":5368361,\"name\":\"Los Angeles\",\"cod\":200}"
+            }
+          ]
+        },
+        {
+          "_postman_id": "7c844865-5a8c-471f-b2cd-0dc3444ca540",
+          "name": "By zip code",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "fa631dcf-af76-4ec9-b43e-c5e8d0e5b874",
+                "type": "text/javascript",
+                "exec": [
+                  "// First, run the common tests",
+                  "eval(globals.commonCurrentWeatherTests)()",
+                  "",
+                  "const jsonData = pm.response.json()",
+                  "",
+                  "pm.test(\"Zip code in request should map to city name in response \", () => {",
+                  "    let zipcode = pm.environment.get('zipcode')",
+                  "    let cityName = \"\"",
+                  "    ",
+                  "    switch(zipcode) {",
+                  "        case \"90743\":",
+                  "            cityName = \"Huntington Beach\"",
+                  "            break",
+                  "        default:",
+                  "            break",
+                  "    }",
+                  "    ",
+                  "    pm.expect(jsonData.name).to.eql(cityName)",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "{{url}}/weather?zip={{zipcode}}&appid={{apikey}}",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "weather"
+              ],
+              "query": [
+                {
+                  "key": "zip",
+                  "value": "{{zipcode}}",
+                  "equals": true
+                },
+                {
+                  "key": "appid",
+                  "value": "{{apikey}}",
+                  "equals": true
+                }
+              ]
+            },
+            "description": "Retrieves the current weather conditions for the specified US zip code. Returns a single JSON object containing current weather data."
+          },
+          "response": [
+            {
+              "id": "3fab8fb4-4977-443e-b76f-6809805fb2b2",
+              "name": "By zip code",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "disabled": false
+                  }
+                ],
+                "body": {},
+                "url": {
+                  "raw": "{{url}}/weather?zip={{zipcode}}&appid={{apikey}}",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "weather"
+                  ],
+                  "query": [
+                    {
+                      "key": "zip",
+                      "value": "{{zipcode}}",
+                      "equals": true
+                    },
+                    {
+                      "key": "appid",
+                      "value": "{{apikey}}",
+                      "equals": true
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true",
+                  "name": "Access-Control-Allow-Credentials",
+                  "description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST",
+                  "name": "Access-Control-Allow-Methods",
+                  "description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": "Options that are desired for the connection"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "454",
+                  "name": "Content-Length",
+                  "description": "The length of the response body in octets (8-bit bytes)"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": "The mime type of this content"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 30 Sep 2018 16:34:39 GMT",
+                  "name": "Date",
+                  "description": "The date and time that the message was sent"
+                },
+                {
+                  "key": "Server",
+                  "value": "openresty",
+                  "name": "Server",
+                  "description": "A name for the server"
+                },
+                {
+                  "key": "X-Cache-Key",
+                  "value": "/data/2.5/weather?zip=90743",
+                  "name": "X-Cache-Key",
+                  "description": "Custom header"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\"coord\":{\"lon\":-118.08,\"lat\":33.73},\"weather\":[{\"id\":721,\"main\":\"Haze\",\"description\":\"haze\",\"icon\":\"50d\"}],\"base\":\"stations\",\"main\":{\"temp\":293.22,\"pressure\":1012,\"humidity\":79,\"temp_min\":292.05,\"temp_max\":295.95},\"visibility\":16093,\"wind\":{\"speed\":1.63,\"deg\":327.001},\"clouds\":{\"all\":1},\"dt\":1538323080,\"sys\":{\"type\":1,\"id\":412,\"message\":0.005,\"country\":\"US\",\"sunrise\":1538315195,\"sunset\":1538357815},\"id\":420004383,\"name\":\"Huntington Beach\",\"cod\":200}"
+            }
+          ]
+        },
+        {
+          "_postman_id": "3a8143bc-cbee-41b1-947c-35420e4c92e2",
+          "name": "Cities within rectangular zone",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "356d23df-2d46-49e4-a1d1-a52ea9adc663",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code should be 200\", () => {",
+                  "    pm.response.to.have.status(200)",
+                  "})",
+                  "",
+                  "const jsonData = pm.response.json()",
+                  "const schema = JSON.parse(pm.environment.get('currentWeatherListSchema'))",
+                  "",
+                  "pm.test(\"Response is JSON\", () => {",
+                  "    pm.response.to.be.json",
+                  "})",
+                  "",
+                  "pm.test(\"Response should validate against the Current Weather List schema\", () => {",
+                  "    const validationResult = tv4.validateResult(jsonData, schema, false, true)",
+                  "    ",
+                  "    if(!validationResult.valid) {",
+                  "        console.log(validationResult)",
+                  "        console.log(validationResult.error.dataPath)",
+                  "    }    ",
+                  "        ",
+                  "    pm.expect(validationResult.valid).to.be.true",
+                  "})",
+                  "",
+                  "pm.test(\"Number of cities in response list should equal 14\", () => {",
+                  "    pm.expect(jsonData.cnt).to.eql(14)",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "{{url}}/box/city?bbox={{bbox}}&appid={{apikey}}",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "box",
+                "city"
+              ],
+              "query": [
+                {
+                  "key": "bbox",
+                  "value": "{{bbox}}",
+                  "equals": true
+                },
+                {
+                  "key": "appid",
+                  "value": "{{apikey}}",
+                  "equals": true
+                }
+              ]
+            },
+            "description": "Retrieves a list of cities containing the current weather conditions for the specified longitude and latitude boundaries.\n\nThe bbox parameter is formatted as longitude-left, latitude-bottom, longitude-right, latitude-top, and the expected number of cities.\n\nExample: -160.2471,18.9117,-154.8066,22.2356,5"
+          },
+          "response": [
+            {
+              "id": "feca37ae-26fb-43b1-86e1-25f006e391c0",
+              "name": "Cities within rectangular zone",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "disabled": false
+                  }
+                ],
+                "body": {},
+                "url": {
+                  "raw": "{{url}}/box/city?bbox={{bbox}}&appid={{apikey}}",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "box",
+                    "city"
+                  ],
+                  "query": [
+                    {
+                      "key": "bbox",
+                      "value": "{{bbox}}",
+                      "equals": true
+                    },
+                    {
+                      "key": "appid",
+                      "value": "{{apikey}}",
+                      "equals": true
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true",
+                  "name": "Access-Control-Allow-Credentials",
+                  "description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST",
+                  "name": "Access-Control-Allow-Methods",
+                  "description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "name": "Access-Control-Allow-Origin",
+                  "description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "name": "Connection",
+                  "description": "Options that are desired for the connection"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "4819",
+                  "name": "Content-Length",
+                  "description": "The length of the response body in octets (8-bit bytes)"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": "The mime type of this content"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 30 Sep 2018 17:44:03 GMT",
+                  "name": "Date",
+                  "description": "The date and time that the message was sent"
+                },
+                {
+                  "key": "Server",
+                  "value": "openresty",
+                  "name": "Server",
+                  "description": "A name for the server"
+                },
+                {
+                  "key": "X-Cache-Key",
+                  "value": "/data/2.5/box/city?bbox=-160.2471,18.9117,-154.8066,22.2356,50",
+                  "name": "X-Cache-Key",
+                  "description": "Custom header"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\"cod\":200,\"calctime\":0.235627269,\"cnt\":14,\"list\":[{\"id\":7262761,\"dt\":1538326948,\"name\":\"Makakilo\",\"coord\":{\"Lat\":21.352369,\"Lon\":-158.086548},\"main\":{\"temp\":24.49,\"temp_min\":22,\"temp_max\":26.7,\"pressure\":1016,\"humidity\":94},\"wind\":{\"speed\":4.55,\"deg\":86.5014},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03d\"}]},{\"id\":5855070,\"dt\":1538326948,\"name\":\"Ewa Gentry\",\"coord\":{\"Lat\":21.34417,\"Lon\":-158.030823},\"main\":{\"temp\":24.48,\"temp_min\":22,\"temp_max\":26.7,\"pressure\":1016,\"humidity\":94},\"wind\":{\"speed\":4.55,\"deg\":86.5014},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03d\"}]},{\"id\":5854686,\"dt\":1538326948,\"name\":\"Waipahu\",\"coord\":{\"Lat\":21.386669,\"Lon\":-158.009171},\"main\":{\"temp\":24.47,\"temp_min\":22,\"temp_max\":26.7,\"pressure\":1016,\"humidity\":94},\"wind\":{\"speed\":4.55,\"deg\":86.5014},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03d\"}]},{\"id\":5852275,\"dt\":1538326948,\"name\":\"Pearl City\",\"coord\":{\"Lat\":21.397221,\"Lon\":-157.973328},\"main\":{\"temp\":24.46,\"temp_min\":22,\"temp_max\":26.7,\"pressure\":1016,\"humidity\":94},\"wind\":{\"speed\":4.55,\"deg\":86.5014},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03d\"}]},{\"id\":5856195,\"dt\":1538327247,\"name\":\"Honolulu\",\"coord\":{\"Lat\":21.30694,\"Lon\":-157.858337},\"main\":{\"temp\":24.44,\"temp_min\":22,\"temp_max\":26.7,\"pressure\":1016,\"humidity\":94},\"wind\":{\"speed\":4.55,\"deg\":86.5014},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03d\"}]},{\"id\":7262790,\"dt\":1538326967,\"name\":\"Schofield Barracks\",\"coord\":{\"Lat\":21.493601,\"Lon\":-158.061508},\"main\":{\"temp\":24.49,\"temp_min\":22,\"temp_max\":26.7,\"pressure\":1016,\"humidity\":94},\"wind\":{\"speed\":4.55,\"deg\":86.5014},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03d\"}]},{\"id\":5851030,\"dt\":1538326967,\"name\":\"Mililani Town\",\"coord\":{\"Lat\":21.450001,\"Lon\":-158.001114},\"main\":{\"temp\":24.48,\"temp_min\":22,\"temp_max\":26.7,\"pressure\":1016,\"humidity\":94},\"wind\":{\"speed\":4.55,\"deg\":86.5014},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03d\"}]},{\"id\":5853992,\"dt\":1538326967,\"name\":\"Wahiawa\",\"coord\":{\"Lat\":21.502781,\"Lon\":-158.023605},\"main\":{\"temp\":24.49,\"temp_min\":22,\"temp_max\":26.7,\"pressure\":1016,\"humidity\":94},\"wind\":{\"speed\":4.55,\"deg\":86.5014},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03d\"}]},{\"id\":5848189,\"dt\":1538326967,\"name\":\"Kaneohe\",\"coord\":{\"Lat\":21.41806,\"Lon\":-157.803604},\"main\":{\"temp\":24.42,\"temp_min\":22,\"temp_max\":26.7,\"pressure\":1016,\"humidity\":94},\"wind\":{\"speed\":4.55,\"deg\":86.5014},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03d\"}]},{\"id\":5847486,\"dt\":1538326967,\"name\":\"Kailua\",\"coord\":{\"Lat\":21.40222,\"Lon\":-157.739441},\"main\":{\"temp\":24.42,\"temp_min\":22,\"temp_max\":26.7,\"pressure\":1016,\"humidity\":94},\"wind\":{\"speed\":4.55,\"deg\":86.5014},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03d\"}]},{\"id\":5849297,\"dt\":1538326967,\"name\":\"Kihei\",\"coord\":{\"Lat\":20.785,\"Lon\":-156.465561},\"main\":{\"temp\":24.2,\"temp_min\":22.2,\"temp_max\":25.6,\"pressure\":1015,\"humidity\":87},\"wind\":{\"speed\":4.6,\"deg\":50},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03n\"}]},{\"id\":5854496,\"dt\":1538326967,\"name\":\"Wailuku\",\"coord\":{\"Lat\":20.891109,\"Lon\":-156.504715},\"main\":{\"temp\":24.59,\"temp_min\":22.2,\"temp_max\":25.6,\"pressure\":1015,\"humidity\":87},\"wind\":{\"speed\":4.6,\"deg\":50},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03n\"}]},{\"id\":5847411,\"dt\":1538326967,\"name\":\"Kahului\",\"coord\":{\"Lat\":20.89472,\"Lon\":-156.470001},\"main\":{\"temp\":24.18,\"temp_min\":22.2,\"temp_max\":25.6,\"pressure\":1015,\"humidity\":87},\"wind\":{\"speed\":4.6,\"deg\":50},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":40},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03n\"}]},{\"id\":5855927,\"dt\":1538326948,\"name\":\"Hilo\",\"coord\":{\"Lat\":19.729719,\"Lon\":-155.089996},\"main\":{\"temp\":15.43,\"temp_min\":8.5,\"temp_max\":24.4,\"pressure\":1015,\"humidity\":87},\"wind\":{\"speed\":1.5,\"deg\":250},\"rain\":null,\"snow\":null,\"clouds\":{\"today\":90},\"weather\":[{\"id\":804,\"main\":\"Clouds\",\"description\":\"overcast clouds\",\"icon\":\"04n\"}]}]}"
+            }
+          ]
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "13907d4b-e9d8-407d-860e-c3370be74f90",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "4e4efe2a-ab0e-46ba-aa4b-f651f6c15aa3",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "183deeea-d60b-453e-a78b-0e6330e21041",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "289b0523-dba9-4bc4-abf0-6b40f3cd0a1e",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
